@@ -8,20 +8,9 @@ class Snake:
         self.color = (0, 255, 0)
         self.blocks = [Block(300, 250, 0, 0)]
         self.head = self.blocks[0]
-        self.tail = self.blocks[-1]
-        self.length = 1
 
     def add_block(self):
-        if self.tail.dx > 0:
-            self.blocks.append(Block(self.tail.x - self.width, self.tail.y, self.tail.dx, self.tail.dy))
-        elif self.tail.dx < 0:
-            self.blocks.append(Block(self.tail.x + self.width, self.tail.y, self.tail.dx, self.tail.dy))
-        elif self.tail.dy > 0:
-            self.blocks.append(Block(self.tail.x, self.tail.y - self.height, self.tail.dx, self.tail.dy))
-        elif self.tail.dy < 0:
-            self.blocks.append(Block(self.tail.x, self.tail.y - self.height, self.tail.dx, self.tail.dy))
-        self.length += 1
-        self.tail = self.blocks[-1]
+        self.blocks.append(Block(0, 0, 0, 0))
 
     def is_dead(self, width, height):
         if not (0 <= self.head.x < width and 0 <= self.head.y < height):
@@ -41,13 +30,21 @@ class Block:
 class Food:
     def __init__(self):
         self.x, self.y = 0, 0
-        self.get_new_pos()
+        self.get_new_pos(100, 100, Snake())
         self.color = (255, 0, 0)
 
-    def get_new_pos(self):
-        x, y = randint(0, 575), randint(0, 575)
-        while not x % 25 == 0:
-            x += 1
-        while not y % 25 == 0:
-            y += 1
-        self.x, self.y = x, y
+    def get_new_pos(self, width, height, snake):
+        valid_pos = False
+        while not valid_pos:
+            x, y = randint(0, width - snake.width), randint(0, height - snake.height)
+            while not x % 25 == 0:
+                x += 1
+            while not y % 25 == 0:
+                y += 1
+            results = []
+            for block in snake.blocks:
+                if not block.x == x and block.y == y:
+                    results.append(True)
+            if not False in results:
+                valid_pos = True
+                self.x, self.y = x, y

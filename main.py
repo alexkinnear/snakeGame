@@ -2,9 +2,12 @@ import pygame
 from copy import deepcopy
 from snake import Snake, Food
 
-WIDTH, HEIGHT = 600, 600
+pygame.init()
+
+WIDTH, HEIGHT = 400, 400
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 CLOCK = pygame.time.Clock()
+SCORE_FONT = pygame.font.SysFont("arial", 25)
 
 snake = Snake()
 food = Food()
@@ -21,6 +24,11 @@ def draw_snake():
         pygame.draw.rect(SCREEN, snake.color, [block.x, block.y, snake.width, snake.height])
 
 
+def draw_score():
+    score = SCORE_FONT.render(f"Score: {len(snake.blocks)-1}", True, (0, 0, 0))
+    SCREEN.blit(score, [0, 0])
+
+
 if __name__ == "__main__":
     __init_window()
 
@@ -28,8 +36,8 @@ if __name__ == "__main__":
     while running:
         temp = deepcopy(snake.blocks)
         for i in range(1, len(snake.blocks)):
-            snake.blocks[i].x = temp[i-1].x
-            snake.blocks[i].y = temp[i-1].y
+            snake.blocks[i].x = temp[i - 1].x
+            snake.blocks[i].y = temp[i - 1].y
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -55,6 +63,7 @@ if __name__ == "__main__":
         SCREEN.fill((255, 255, 255))
         pygame.draw.rect(SCREEN, food.color, [food.x, food.y, snake.width, snake.height])
         draw_snake()
+        draw_score()
         pygame.display.flip()
         CLOCK.tick(snake.vel)
 
@@ -62,5 +71,5 @@ if __name__ == "__main__":
 
         # Check if eating food
         if snake.head.x == food.x and snake.head.y == food.y:
-            food.get_new_pos()
+            food.get_new_pos(WIDTH, HEIGHT, snake)
             snake.add_block()
