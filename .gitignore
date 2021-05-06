@@ -5,6 +5,10 @@ __pycache__/
 
 # PyCharm
 .idea/
+.DS_Store
+
+# Practice File
+test.py
 
 # C extensions
 *.so

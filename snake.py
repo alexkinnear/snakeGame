@@ -6,11 +6,12 @@ class Snake:
         self.width, self.height = 25, 25
         self.vel = 15
         self.color = (0, 255, 0)
-        self.blocks = [Block(300, 250, 0, 0)]
+        self.blocks = [Block(300, 250)]
         self.head = self.blocks[0]
+        self.dx, self.dy = 0, 0
 
     def add_block(self):
-        self.blocks.append(Block(0, 0, 0, 0))
+        self.blocks.append(Block(0, 0))
 
     def is_dead(self, width, height):
         if not (0 <= self.head.x < width and 0 <= self.head.y < height):
@@ -22,15 +23,14 @@ class Snake:
 
 
 class Block:
-    def __init__(self, x, y, dx, dy):
+    def __init__(self, x, y):
         self.x, self.y = x, y
-        self.dx, self.dy = dx, dy
 
 
 class Food:
     def __init__(self):
         self.x, self.y = 0, 0
-        self.get_new_pos(100, 100, Snake())
+        self.get_new_pos(400, 400, Snake())
         self.color = (255, 0, 0)
 
     def get_new_pos(self, width, height, snake):
@@ -41,10 +41,10 @@ class Food:
                 x += 1
             while not y % 25 == 0:
                 y += 1
-            results = []
+            result = []
             for block in snake.blocks:
-                if not block.x == x and block.y == y:
-                    results.append(True)
-            if not False in results:
+                if x == block.x and y == block.y:
+                    result.append(0)
+            if len(result) == 0:
                 valid_pos = True
                 self.x, self.y = x, y
