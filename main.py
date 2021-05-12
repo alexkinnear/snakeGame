@@ -3,7 +3,7 @@ from copy import deepcopy
 from sys import exit
 from snake import Snake, Food
 import hamiltonian_cycle
-from q_learning import Q_Learning
+from ai import AI
 
 pygame.init()
 
@@ -58,31 +58,31 @@ def view_leaderboard():
 def main_menu():
     choosing = True
     while choosing:
-        SCREEN.fill((255, 255, 255))
-        display_msg("Classic Snake Game", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 5))
-        display_msg("p - Play", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 3))
-        display_msg("h - Hamiltonian Cycle AI", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 2.5))
-        display_msg("r - Q-Learning AI", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 2))
-        display_msg("v - View Leaderboard", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 1.5))
-        display_msg("q - Quit", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 1.25))
+        SCREEN.fill((152, 251, 152))
+        display_msg("Classic Snake Game", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 5.5))
+        display_msg("s - Play", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 3.5))
+        display_msg("n - Hamiltonian Cycle AI", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 2.8))
+        display_msg("a - AI", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 2.4))
+        display_msg("k - View Leaderboard", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 2.05))
+        display_msg("e - Quit", (0, 0, 0), (WIDTH / 3.2, HEIGHT / 1.82))
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
+                if event.key == pygame.K_e:
                     exit()
-                elif event.key == pygame.K_p:
+                elif event.key == pygame.K_s:
                     play(Snake(), Food())
                     choosing = False
-                elif event.key == pygame.K_h:
+                elif event.key == pygame.K_n:
                     hamiltonian_cycle.hamiltonian_cycle(SCREEN, CLOCK, Snake(), Food(), WIDTH, HEIGHT)
                     choosing = False
-                elif event.key == pygame.K_r:
-                    r = Q_Learning(SCREEN, CLOCK, Snake(), Food(), WIDTH, HEIGHT)
-                    r.run()
-                elif event.key == pygame.K_v:
+                elif event.key == pygame.K_a:
+                    a = AI(SCREEN, CLOCK, Snake(), Food(), WIDTH, HEIGHT)
+                    a.run()
+                elif event.key == pygame.K_k:
                     view_leaderboard()
                     choosing = False
 

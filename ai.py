@@ -8,7 +8,7 @@ def distance(snake, food):
     return abs(sqrt((snake.head.x - food.x) ** 2 + (snake.head.y - food.y) ** 2))
 
 
-class Q_Learning:
+class AI:
     def __init__(self, screen, clock, snake, food, width, height):
         self.screen = screen
         self.clock = clock
