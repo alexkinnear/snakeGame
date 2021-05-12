@@ -1,3 +1,4 @@
+import pygame
 from random import randint
 
 
@@ -20,6 +21,10 @@ class Snake:
             if self.head.x == self.blocks[i].x and self.head.y == self.blocks[i].y:
                 return True
         return False
+
+    def draw_snake(self, screen):
+        for block in self.blocks:
+            pygame.draw.rect(screen, self.color, [block.x, block.y, self.width, self.height])
 
 
 class Block:
